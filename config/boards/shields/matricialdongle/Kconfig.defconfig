@@ -1,16 +1,16 @@
 if SHIELD_MATRICIALDONGLE
     config ZMK_KEYBOARD_NAME
-        default "Matricial Split Dongle"
+        default "MatSplit Dongle"
 endif
 
 if SHIELD_MATRICIALDONGLE_LEFT
     config ZMK_KEYBOARD_NAME
-        default "Matricial Split"
+        default "MatSplit L"
 endif
 
 if SHIELD_MATRICIALDONGLE_RIGHT  
     config ZMK_KEYBOARD_NAME
-        default "Matricial Split"
+        default "MatSplit R"
 endif
 
 if SHIELD_MATRICIALDONGLE || SHIELD_MATRICIALDONGLE_LEFT || SHIELD_MATRICIALDONGLE_RIGHT
