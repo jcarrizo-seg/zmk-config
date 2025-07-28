@@ -7,8 +7,8 @@
 #include "matricialdongle.dtsi"
 
 / {
-    model = "matricialdongle";
-    compatible = "matricialdongle";
+    model = "mdongle";
+    compatible = "mdongle";
 
     chosen {
         zmk,split = &split;
