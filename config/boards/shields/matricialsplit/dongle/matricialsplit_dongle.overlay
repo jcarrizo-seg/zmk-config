@@ -1,0 +1,44 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "../matricialsplit.dtsi"
+
+/ {
+    model = "matricialsplit_dongle";
+    compatible = "matricialsplit_dongle";
+
+    chosen {
+        // El dongle usa el keymap y matrix transform del split completo
+        zmk,matrix_transform = &default_transform;
+        // NO define zmk,kscan porque el dongle no tiene matriz física propia
+        zmk,split = &split;
+    };
+
+    // Configuración del split - el dongle coordina ambos lados
+    split: split {
+        compatible = "zmk,split";
+        label = "SPLIT";
+        
+        // El dongle actúa como central para ambos lados
+        central-side = <&dongle_central>;
+        peripheral-sides = <&left_side &right_side>;
+        
+        dongle_central: dongle_central {
+            compatible = "zmk,split-side";
+            label = "DONGLE_CENTRAL";
+        };
+        
+        left_side: left_side {
+            compatible = "zmk,split-side";
+            label = "LEFT_SIDE";
+        };
+        
+        right_side: right_side {
+            compatible = "zmk,split-side";
+            label = "RIGHT_SIDE";
+        };
+    };
+};

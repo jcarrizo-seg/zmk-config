@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+// Incluimos la configuración original del lado izquierdo
+#include "../matricialsplit_left.overlay"
+
+/ {
+    // Cambiamos el modelo e identificación
+    model = "matricialsplit_peripheral_left";
+    compatible = "matricialsplit_peripheral_left";
+};
+
+// Override: redefinimos el split para que este lado sea solo periférico
+&split {
+    // Este lado ya NO es central - el dongle es el central
+    central-side = <>;  // Vacío, este lado no es central
+    
+    // Este lado es solo periférico
+    peripheral-side = <&left_side>;
+    
+    // Mantenemos la definición del lado izquierdo
+    left_side: left_side {
+        compatible = "zmk,split-side";
+        label = "LEFT_PERIPHERAL";
+    };
+};
