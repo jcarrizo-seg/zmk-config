@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "matricialdongle.dtsi"
+
+/ {
+    model = "matricialdongle";
+    compatible = "matricialdongle";
+
+    chosen {
+        zmk,split = &split;
+    };
+
+    split: split {
+        compatible = "zmk,split";
+        label = "SPLIT";
+        
+        central-side = <&dongle_side>;
+        peripheral-side = <&left_side>;
+        peripheral-side = <&right_side>;
+        
+        dongle_side: dongle_side {
+            compatible = "zmk,split-side";
+            label = "DONGLE_SIDE";
+        };
+        
+        left_side: left_side {
+            compatible = "zmk,split-side";
+            label = "LEFT_SIDE";
+        };
+        
+        right_side: right_side {
+            compatible = "zmk,split-side";
+            label = "RIGHT_SIDE";
+        };
+    };
+};

@@ -1,0 +1,10 @@
+config SHIELD_MATRICIALDONGLE
+    def_bool $(shields_list_contains,matricialdongle)
+    select ZMK_SPLIT
+    select ZMK_SPLIT_ROLE_CENTRAL
+
+config SHIELD_MATRICIALDONGLE_LEFT
+    def_bool $(shields_list_contains,matricialdongle_left)
+    
+config SHIELD_MATRICIALDONGLE_RIGHT  
+    def_bool $(shields_list_contains,matricialdongle_right)

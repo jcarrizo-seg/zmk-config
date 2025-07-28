@@ -1,0 +1,15 @@
+# Copyright (c) 2020 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+CONFIG_ZMK_KEYBOARD_NAME="Matricial Split Dongle"
+
+# Configuración para dongle central
+CONFIG_ZMK_SPLIT=y
+CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
+CONFIG_ZMK_BLE=y
+
+# Sin matriz física propia
+CONFIG_ZMK_KSCAN_MOCK_DRIVER=y
+
+# USB siempre habilitado
+CONFIG_ZMK_USB=y
