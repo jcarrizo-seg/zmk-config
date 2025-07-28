@@ -40,9 +40,6 @@ config ZMK_SPLIT
 config ZMK_BLE
     default y
 
-config ZMK_SPLIT_BLE
-    default y
-
 endif
 
 # Configuración para periférico derecho
@@ -62,9 +59,6 @@ config ZMK_SPLIT
 
 # Los periféricos usan BLE para comunicarse con el dongle
 config ZMK_BLE
-    default y
-
-config ZMK_SPLIT_BLE
     default y
 
 endif
