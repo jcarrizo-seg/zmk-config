@@ -49,6 +49,7 @@
         compatible = "zmk,matrix-transform";
         columns = <4>;
         rows = <4>;
+        col-offset = <4>;
         map = <
             RC(0,4) RC(0,5) RC(0,6) RC(0,7)
             RC(1,4) RC(1,5) RC(1,6) RC(1,7)
