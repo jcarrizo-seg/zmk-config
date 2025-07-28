@@ -13,7 +13,8 @@
     chosen {
         // El dongle usa su propio matrix transform
         zmk,matrix_transform = &split_transform;
-        // NO define zmk,kscan porque el dongle no tiene matriz física propia
+        // Usa un kscan dummy para evitar errores de compilación
+        zmk,kscan = &kscan0;
     };
 
     // Matrix transform para el teclado completo (8x4)
@@ -30,7 +31,8 @@
     };
 };
 
-// Deshabilitar el kscan heredado del archivo base
+// Configurar el kscan como dummy (sin GPIOs físicos)
 &kscan0 {
-    status = "disabled";
+    // Mantener la configuración básica pero sin col-gpios
+    // ZMK necesita que exista pero no se usará físicamente
 };
