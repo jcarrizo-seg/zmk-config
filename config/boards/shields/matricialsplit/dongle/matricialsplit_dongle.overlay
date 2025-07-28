@@ -4,21 +4,17 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "../matricialsplit.dtsi"
+#include <dt-bindings/zmk/matrix_transform.h>
 
 / {
     model = "matricialsplit_dongle";
     compatible = "matricialsplit_dongle";
 
     chosen {
-        // El dongle usa su propio matrix transform
-        zmk,matrix_transform = &split_transform;
-        // Usa un kscan dummy para evitar errores de compilación
-        zmk,kscan = &kscan0;
+        zmk,matrix_transform = &default_transform;
     };
 
-    // Matrix transform para el teclado completo (8x4)
-    split_transform: keymap_transform_0 {
+    default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <8>;
         rows = <4>;
@@ -29,10 +25,4 @@
             RC(3,0) RC(3,1) RC(3,2) RC(3,3)    RC(3,4) RC(3,5) RC(3,6) RC(3,7)
         >;
     };
-};
-
-// Configurar el kscan como dummy (sin GPIOs físicos)
-&kscan0 {
-    // Mantener la configuración básica pero sin col-gpios
-    // ZMK necesita que exista pero no se usará físicamente
 };
