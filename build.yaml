@@ -20,4 +20,6 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: matricial16
+    shield: matricialsplit_left
+  - board: nice_nano_v2
+    shield: matricialsplit_right
