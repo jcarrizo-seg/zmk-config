@@ -13,7 +13,7 @@
     chosen {
         // El dongle usa su propio matrix transform
         zmk,matrix_transform = &split_transform;
-        // El keymap se define en matricialsplit_dongle.keymap
+        // NO define zmk,kscan porque el dongle no tiene matriz física propia
     };
 
     // Matrix transform para el teclado completo (8x4)
@@ -28,4 +28,10 @@
             RC(3,0) RC(3,1) RC(3,2) RC(3,3)    RC(3,4) RC(3,5) RC(3,6) RC(3,7)
         >;
     };
+};
+
+// Deshabilitar el kscan heredado del archivo base
+&kscan0 {
+    status = "disabled";
+};
 };
