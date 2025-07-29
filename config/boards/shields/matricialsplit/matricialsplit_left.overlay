@@ -1,43 +1,16 @@
-/*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
 #include "matricialsplit.dtsi"
 
-/ {
-    model = "matricialsplit_left";
-    compatible = "matricialsplit_left";
-
-    chosen {
-        zmk,split = &split;
-    };
-
-    split: split {
-        compatible = "zmk,split";
-        label = "SPLIT";
-        
-        central-side = <&left_side>;
-        peripheral-side = <&right_side>;
-        
-        left_side: left_side {
-            compatible = "zmk,split-side";
-            label = "LEFT_SIDE";
-        };
-        
-        right_side: right_side {
-            compatible = "zmk,split-side";
-            label = "RIGHT_SIDE";
-        };
-    };
+&default_transform {
+    // Left side uses columns 0-3
+    col-offset = <0>;
 };
 
 &kscan0 {
+    // Left side columns
     col-gpios
-        = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        = <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
         ;
 };
