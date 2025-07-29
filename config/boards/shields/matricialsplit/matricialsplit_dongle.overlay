@@ -38,12 +38,12 @@
     encoder_sensor_left: encoder_sensor_left {
         compatible = "zmk,behavior-sensor-rotate-var";
         #sensor-binding-cells = <2>;
-        bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        bindings = <&inc_dec_kp 0 0>;
     };
 
     encoder_sensor_right: encoder_sensor_right {
         compatible = "zmk,behavior-sensor-rotate-var";
         #sensor-binding-cells = <2>;
-        bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN>;
+        bindings = <&inc_dec_kp 0 0>;
     };
 };
