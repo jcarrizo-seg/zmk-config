@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
@@ -12,12 +6,46 @@
         compatible = "zmk,keymap";
 
         default_layer {
+            // Teclas de la matriz 4x4 de cada lado
             bindings = <
                 &kp N1    &kp N2    &kp N3    &kp A      &kp Q     &kp W     &kp E     &kp R
                 &kp N4    &kp N5    &kp N6    &kp B      &kp T     &kp Y     &kp U     &kp I
                 &kp N7    &kp N8    &kp N9    &kp C      &kp O     &kp P     &kp LBKT  &kp RBKT
                 &kp ASTRK &kp N0    &kp HASH  &kp D      &kp SPACE &kp ENTER &kp BSPC  &kp DEL
             >;
+            
+            // Configuración de encoders
+            sensor-bindings = <
+                &inc_dec_kp C_VOL_UP C_VOL_DN    // Encoder izquierdo: Volumen
+                &inc_dec_kp C_BRI_UP C_BRI_DN    // Encoder derecho: Brillo pantalla
+            >;
+        };
+
+        // Layer adicional para demostrar diferentes funciones en encoders
+        function_layer {
+            bindings = <
+                &kp F1    &kp F2    &kp F3    &kp F4     &kp F5    &kp F6    &kp F7    &kp F8
+                &kp F9    &kp F10   &kp F11   &kp F12    &trans    &trans    &trans    &trans
+                &trans    &trans    &trans    &trans     &trans    &trans    &trans    &trans
+                &trans    &trans    &trans    &trans     &trans    &trans    &trans    &trans
+            >;
+            
+            // En este layer, los encoders hacen scroll horizontal
+            sensor-bindings = <
+                &inc_dec_kp LEFT RIGHT           // Encoder izquierdo: Scroll horizontal
+                &inc_dec_kp UP DOWN              // Encoder derecho: Scroll vertical
+            >;
+        };
+    };
+
+    // Combos para activar layer de funciones (ejemplo)
+    combos {
+        compatible = "zmk,combos";
+        
+        combo_fn {
+            timeout-ms = <50>;
+            key-positions = <30 31>;  // Presionar SPACE + ENTER
+            bindings = <&mo 1>;       // Activa function_layer
         };
     };
 };

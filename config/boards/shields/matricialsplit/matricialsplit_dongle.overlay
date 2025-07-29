@@ -14,7 +14,7 @@
         events = <0>;
     };
 
-    // Same matrix transform as your original
+    // Matrix transform para el dongle (mapea ambos lados)
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <8>;
@@ -25,5 +25,25 @@
             RC(2,0) RC(2,1) RC(2,2) RC(2,3)    RC(2,4) RC(2,5) RC(2,6) RC(2,7)
             RC(3,0) RC(3,1) RC(3,2) RC(3,3)    RC(3,4) RC(3,5) RC(3,6) RC(3,7)
         >;
+    };
+
+    // Sensores para recibir datos de encoders de ambos lados
+    sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&encoder_sensor_left &encoder_sensor_right>;
+        triggers-per-rotation = <20>;
+    };
+
+    // Sensores virtuales que reciben datos de los periféricos
+    encoder_sensor_left: encoder_sensor_left {
+        compatible = "zmk,behavior-sensor-rotate-var";
+        label = "ENCODER_LEFT";
+        #sensor-binding-cells = <2>;
+    };
+
+    encoder_sensor_right: encoder_sensor_right {
+        compatible = "zmk,behavior-sensor-rotate-var";
+        label = "ENCODER_RIGHT";
+        #sensor-binding-cells = <2>;
     };
 };

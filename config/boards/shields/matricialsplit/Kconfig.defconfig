@@ -35,11 +35,11 @@ config ZMK_SPLIT_ROLE_CENTRAL
 config ZMK_SPLIT
     default y
 
-# Set this to 2 because you have left and right halves
+# 2 peripherals (left and right)
 config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
     default 2
 
-# Set this to ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS + your desired number of BT profiles (default is 5)
+# Connections: 2 peripherals + 5 BT profiles
 config BT_MAX_CONN
     default 7
 

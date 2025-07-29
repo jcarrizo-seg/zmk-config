@@ -14,3 +14,28 @@
         , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         ;
 };
+
+/ {
+    // Encoder derecho KY-040
+    right_encoder: encoder_right {
+        compatible = "alps,ec11";
+        label = "RIGHT_ENCODER";
+        a-gpios = <&pro_micro 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // CLK
+        b-gpios = <&pro_micro 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // DT
+        steps = <20>;  // KY-040 tiene 20 pasos
+        status = "okay";
+    };
+
+    // Sensor para el encoder derecho
+    sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&right_encoder>;
+        triggers-per-rotation = <20>;
+    };
+
+    // Switch del encoder derecho (conexión directa)
+    encoder_switch: kscan_direct {
+        compatible = "zmk,kscan-gpio-direct";
+        input-gpios = <&pro_micro 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  // SW
+    };
+};
