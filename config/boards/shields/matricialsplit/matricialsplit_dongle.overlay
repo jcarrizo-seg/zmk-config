@@ -34,14 +34,22 @@
         triggers-per-rotation = <20>;
     };
 
+    // Behaviors dummy para los sensores virtuales
+    dummy_behavior: dummy_behavior {
+        compatible = "zmk,behavior-none";
+        #binding-cells = <0>;
+    };
+
     // Sensores virtuales que reciben datos de los periféricos
     encoder_sensor_left: encoder_sensor_left {
         compatible = "zmk,behavior-sensor-rotate-var";
         #sensor-binding-cells = <2>;
+        bindings = <&dummy_behavior>, <&dummy_behavior>;
     };
 
     encoder_sensor_right: encoder_sensor_right {
         compatible = "zmk,behavior-sensor-rotate-var";
         #sensor-binding-cells = <2>;
+        bindings = <&dummy_behavior>, <&dummy_behavior>;
     };
 };
