@@ -1,7 +1,6 @@
 /*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
+ * Keymap de debug - cada tecla produce un carácter único
+ * para identificar exactamente qué está siendo detectado
  */
 
 #include <behaviors.dtsi>
@@ -13,10 +12,11 @@
 
         default_layer {
             bindings = <
-                &kp N1    &kp N2    &kp N3    &kp A      &kp Q     &kp W     &kp E     &kp R
-                &kp N4    &kp N5    &kp N6    &kp B      &kp T     &kp Y     &kp U     &kp I
-                &kp N7    &kp N8    &kp N9    &kp C      &kp O     &kp P     &kp LBKT  &kp RBKT
-                &kp ASTRK &kp N0    &kp HASH  &kp D      &kp SPACE &kp ENTER &kp BSPC  &kp DEL
+            // IZQUIERDA (L0-L15)              DERECHA (R0-R15)
+                &kp A     &kp B     &kp C     &kp D      &kp N1    &kp N2    &kp N3    &kp N4
+                &kp E     &kp F     &kp G     &kp H      &kp N5    &kp N6    &kp N7    &kp N8
+                &kp I     &kp J     &kp K     &kp L      &kp N9    &kp N0    &kp MINUS &kp EQUAL
+                &kp M     &kp N     &kp O     &kp P      &kp Q     &kp R     &kp S     &kp T
             >;
         };
     };
