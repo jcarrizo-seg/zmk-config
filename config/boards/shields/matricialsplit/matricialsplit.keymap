@@ -1,12 +1,13 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
 
 / {
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
-            // Teclas de la matriz 4x4 de cada lado
+            // Teclas de la matriz 4x4 de cada lado (manteniendo tu layout original)
             bindings = <
                 &kp N1    &kp N2    &kp N3    &kp A      &kp Q     &kp W     &kp E     &kp R
                 &kp N4    &kp N5    &kp N6    &kp B      &kp T     &kp Y     &kp U     &kp I
@@ -16,8 +17,8 @@
             
             // Configuración de encoders
             sensor-bindings = <
-                &inc_dec_kp C_VOL_UP C_VOL_DN    // Encoder izquierdo: Volumen
-                &inc_dec_kp C_BRI_UP C_BRI_DN    // Encoder derecho: Brillo pantalla
+                &inc_dec_kp C_VOL_DN C_VOL_UP    // Encoder izquierdo: Volumen (invertido para KY-040)
+                &inc_dec_kp C_BRI_DN C_BRI_UP    // Encoder derecho: Brillo pantalla
             >;
         };
 
@@ -25,26 +26,26 @@
         function_layer {
             bindings = <
                 &kp F1    &kp F2    &kp F3    &kp F4     &kp F5    &kp F6    &kp F7    &kp F8
-                &kp F9    &kp F10   &kp F11   &kp F12    &trans    &trans    &trans    &trans
-                &trans    &trans    &trans    &trans     &trans    &trans    &trans    &trans
-                &trans    &trans    &trans    &trans     &trans    &trans    &trans    &trans
+                &kp F9    &kp F10   &kp F11   &kp F12    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3
+                &bt BT_CLR    &trans        &trans        &trans         &trans        &trans        &trans        &trans
+                &trans        &trans        &trans        &trans         &trans        &trans        &trans        &trans
             >;
             
-            // En este layer, los encoders hacen scroll horizontal
+            // En este layer, los encoders hacen scroll
             sensor-bindings = <
-                &inc_dec_kp LEFT RIGHT           // Encoder izquierdo: Scroll horizontal
-                &inc_dec_kp UP DOWN              // Encoder derecho: Scroll vertical
+                &inc_dec_kp LEFT RIGHT               // Encoder izquierdo: Scroll horizontal
+                &inc_dec_kp DOWN UP                  // Encoder derecho: Scroll vertical
             >;
         };
     };
 
-    // Combos para activar layer de funciones (ejemplo)
+    // Combos para activar layer de funciones
     combos {
         compatible = "zmk,combos";
         
         combo_fn {
             timeout-ms = <50>;
-            key-positions = <30 31>;  // Presionar SPACE + ENTER
+            key-positions = <30 31>;  // Presionar SPACE + ENTER (posiciones originales)
             bindings = <&mo 1>;       // Activa function_layer
         };
     };
