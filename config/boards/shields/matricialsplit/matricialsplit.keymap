@@ -15,10 +15,10 @@
                 &kp ASTRK &kp N0    &kp HASH  &kp D      &kp SPACE &kp ENTER &kp BSPC  &kp DEL
             >;
             
-            // Configuración de encoders
+            // Configuración de encoders (dirección corregida)
             sensor-bindings = <
-                &inc_dec_kp C_VOL_DN C_VOL_UP    // Encoder izquierdo: Volumen (invertido para KY-040)
-                &inc_dec_kp C_BRI_DN C_BRI_UP    // Encoder derecho: Brillo pantalla
+                &inc_dec_kp C_VOL_UP C_VOL_DN    // Encoder izquierdo: Dirección corregida
+                &inc_dec_kp C_BRI_UP C_BRI_DN    // Encoder derecho: Brillo pantalla
             >;
         };
 
