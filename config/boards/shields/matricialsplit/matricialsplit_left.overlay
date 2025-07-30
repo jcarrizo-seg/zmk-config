@@ -37,7 +37,7 @@
     encoder_kscan: kscan_encoder {
         compatible = "zmk,kscan-gpio-direct";
         label = "ENCODER_KSCAN";
-        input-gpios = <&pro_micro 1 GPIO_ACTIVE_LOW>;  // SW
+        input-gpios = <&pro_micro 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  // SW
     };
 
     // Combinar ambos kscan (matriz principal + encoder click)
