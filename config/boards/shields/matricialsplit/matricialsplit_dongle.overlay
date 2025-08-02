@@ -28,29 +28,24 @@
         >;
     };
 
-    // Sensores para recibir datos de encoders de ambos lados
+    // Sensores que corresponden a los encoders físicos de los periféricos
+    // IMPORTANTE: El orden debe coincidir con sensor-bindings en keymap
     sensors {
         compatible = "zmk,keymap-sensors";
-        sensors = <&encoder_sensor_left &encoder_sensor_right>;
-        triggers-per-rotation = <120>;
+        sensors = <&left_encoder_virtual &right_encoder_virtual>;
+        triggers-per-rotation = <120>;  // Debe coincidir con los periféricos
     };
 
-    // Behaviors dummy para los sensores virtuales
-    dummy_behavior: dummy_behavior {
-        compatible = "zmk,behavior-none";
-        #binding-cells = <0>;
+    // Sensores virtuales que reciben datos via split BLE
+    left_encoder_virtual: left_encoder_virtual {
+        compatible = "zmk,behavior-sensor-rotate";
+        label = "LEFT_ENCODER_VIRTUAL";
+        #sensor-binding-cells = <0>;
     };
 
-    // Sensores virtuales que reciben datos de los periféricos
-    encoder_sensor_left: encoder_sensor_left {
-        compatible = "zmk,behavior-sensor-rotate-var";
-        #sensor-binding-cells = <2>;
-        bindings = <&dummy_behavior>, <&dummy_behavior>;
-    };
-
-    encoder_sensor_right: encoder_sensor_right {
-        compatible = "zmk,behavior-sensor-rotate-var";
-        #sensor-binding-cells = <2>;
-        bindings = <&dummy_behavior>, <&dummy_behavior>;
+    right_encoder_virtual: right_encoder_virtual {
+        compatible = "zmk,behavior-sensor-rotate";
+        label = "RIGHT_ENCODER_VIRTUAL";
+        #sensor-binding-cells = <0>;
     };
 };
