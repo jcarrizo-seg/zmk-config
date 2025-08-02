@@ -32,7 +32,7 @@
     sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&encoder_sensor_left &encoder_sensor_right>;
-        triggers-per-rotation = <30>;
+        triggers-per-rotation = <20>;
     };
 
     // Behaviors dummy para los sensores virtuales
