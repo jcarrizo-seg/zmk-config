@@ -28,10 +28,11 @@
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <31>;
-        // segment-remap;     ← Comentar esta línea
-        // com-invdir;        ← Comentar esta línea
+        segment-remap;
+        com-invdir;
         com-sequential;
         prechargep = <0x22>;
+        // inversion-on;      ← Quitar esta línea
     };
 };
 
