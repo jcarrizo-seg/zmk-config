@@ -22,7 +22,7 @@
         label = "RIGHT_ENCODER";
         a-gpios = <&pro_micro 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // CLK
         b-gpios = <&pro_micro 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // DT
-        steps = <120>;  // KY-040 tiene 20 pasos
+        steps = <120>;  // Aumentar pasos para reducir sensibilidad (4x menos sensible)
         status = "okay";
     };
 
@@ -30,12 +30,40 @@
     sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&right_encoder>;
-        triggers-per-rotation = <120>;
+        triggers-per-rotation = <120>;  // Debe coincidir con steps
     };
 
-    // Switch del encoder derecho (conexión directa)
-    encoder_switch: kscan_direct {
+    // Configuración del click del encoder como kscan adicional
+    encoder_kscan: kscan_encoder {
         compatible = "zmk,kscan-gpio-direct";
+        label = "ENCODER_KSCAN";
         input-gpios = <&pro_micro 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  // SW
+    };
+
+    // Combinar ambos kscan (matriz principal + encoder click)
+    kscan_composite: kscan_composite {
+        compatible = "zmk,kscan-composite";
+        label = "KSCAN_COMPOSITE";
+        rows = <5>;  // 5 filas para incluir encoder click
+        columns = <4>;  // 4 columnas del lado derecho
+        
+        // Nodos hijos en lugar de propiedad kscan
+        matrix {
+            kscan = <&kscan0>;
+            row-offset = <0>;
+            col-offset = <0>;
+        };
+        
+        encoder {
+            kscan = <&encoder_kscan>;
+            row-offset = <4>;
+            col-offset = <0>;  // Encoder click en la columna 0 local (será RC(4,4) globalmente)
+        };
+    };
+
+    // Actualizar chosen para usar el kscan composite
+    chosen {
+        zmk,kscan = &kscan_composite;
+        zmk,matrix_transform = &default_transform;
     };
 };
