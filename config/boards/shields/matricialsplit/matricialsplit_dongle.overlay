@@ -28,30 +28,29 @@
         >;
     };
 
-    // Sensores virtuales para recibir datos de encoders remotos
-    // En un dongle, los sensores son virtuales y se manejan via keymap
+    // Sensores para recibir datos de encoders de ambos lados
     sensors {
         compatible = "zmk,keymap-sensors";
-        sensors = <&encoder_1 &encoder_2>;
+        sensors = <&encoder_sensor_left &encoder_sensor_right>;
         triggers-per-rotation = <120>;
     };
 
-    // Definir sensores mock para que el sistema los reconozca
-    encoder_1: encoder_1 {
-        compatible = "alps,ec11";
-        label = "ENCODER_1";
-        a-gpios = <&gpio0 0 0>;  // GPIO dummy - no se usa
-        b-gpios = <&gpio0 1 0>;  // GPIO dummy - no se usa
-        steps = <120>;
-        status = "disabled";  // Deshabilitado porque es virtual
+    // Behaviors dummy para los sensores virtuales
+    dummy_behavior: dummy_behavior {
+        compatible = "zmk,behavior-none";
+        #binding-cells = <0>;
     };
 
-    encoder_2: encoder_2 {
-        compatible = "alps,ec11";
-        label = "ENCODER_2";
-        a-gpios = <&gpio0 2 0>;  // GPIO dummy - no se usa
-        b-gpios = <&gpio0 3 0>;  // GPIO dummy - no se usa
-        steps = <120>;
-        status = "disabled";  // Deshabilitado porque es virtual
+    // Sensores virtuales que reciben datos de los periféricos
+    encoder_sensor_left: encoder_sensor_left {
+        compatible = "zmk,behavior-sensor-rotate-var";
+        #sensor-binding-cells = <2>;
+        bindings = <&dummy_behavior>, <&dummy_behavior>;
+    };
+
+    encoder_sensor_right: encoder_sensor_right {
+        compatible = "zmk,behavior-sensor-rotate-var";
+        #sensor-binding-cells = <2>;
+        bindings = <&dummy_behavior>, <&dummy_behavior>;
     };
 };
