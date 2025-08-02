@@ -16,11 +16,11 @@
                 &kp C_MUTE                               &kp C_MUTE 
             >;
             
-            // Los sensor-bindings ahora están definidos en el dongle
-            // sensor-bindings = <
-            //     &inc_dec_kp C_VOL_UP C_VOL_DN    // Encoder izquierdo: Volumen
-            //     &inc_dec_kp C_VOL_UP C_VOL_DN    // Encoder derecho: Volumen
-            // >;
+            // Configuración de encoders - NECESARIO para el dongle
+            sensor-bindings = <
+                &inc_dec_kp C_VOL_UP C_VOL_DN    // Encoder izquierdo: Volumen
+                &inc_dec_kp C_VOL_UP C_VOL_DN    // Encoder derecho: Volumen
+            >;
         };
     };
 };
