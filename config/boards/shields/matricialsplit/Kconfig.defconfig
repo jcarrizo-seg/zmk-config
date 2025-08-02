@@ -35,16 +35,29 @@ config ZMK_SPLIT_ROLE_CENTRAL
 config ZMK_SPLIT
     default y
 
+if SHIELD_MATRICIALSPLIT_NUMPAD
+
+config ZMK_KEYBOARD_NAME
+    default "Matricial Numpad"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default n
+
+config ZMK_SPLIT
+    default y
+
+endif
+
 # 2 peripherals (left and right)
 config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
-    default 2
+    default 3
 
 # Connections: 2 peripherals + 5 BT profiles
 config BT_MAX_CONN
-    default 7
+    default 8
 
 # Set this to the same number as BT_MAX_CONN
 config BT_MAX_PAIRED
-    default 7
+    default 8
 
 endif
