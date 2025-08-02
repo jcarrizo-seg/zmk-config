@@ -41,11 +41,13 @@
         compatible = "zmk,behavior-sensor-rotate";
         label = "LEFT_ENCODER_VIRTUAL";
         #sensor-binding-cells = <0>;
+        bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
     };
 
     right_encoder_virtual: right_encoder_virtual {
         compatible = "zmk,behavior-sensor-rotate";
         label = "RIGHT_ENCODER_VIRTUAL";
         #sensor-binding-cells = <0>;
+        bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
     };
 };
