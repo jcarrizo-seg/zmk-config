@@ -24,7 +24,7 @@
             RC(1,0) RC(1,1) RC(1,2) RC(1,3)    RC(1,4) RC(1,5) RC(1,6) RC(1,7)
             RC(2,0) RC(2,1) RC(2,2) RC(2,3)    RC(2,4) RC(2,5) RC(2,6) RC(2,7)
             RC(3,0) RC(3,1) RC(3,2) RC(3,3)    RC(3,4) RC(3,5) RC(3,6) RC(3,7)
-            RC(4,0)                            // Encoder click izquierdo
+            RC(4,0)                            RC(4,4)
         >;
     };
 
@@ -32,7 +32,7 @@
     sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&encoder_sensor_left &encoder_sensor_right>;
-        triggers-per-rotation = <20>;
+        triggers-per-rotation = <120>;
     };
 
     // Behaviors dummy para los sensores virtuales
