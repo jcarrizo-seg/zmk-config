@@ -28,8 +28,8 @@
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <31>;
-        com-sequential;          // ← Solo esta línea
-        prechargep = <0x22>;
+        com-sequential;
+        prechargep = <0xF1>;     // ← Cambiar de 0x22 a 0xF1
     };
 };
 
