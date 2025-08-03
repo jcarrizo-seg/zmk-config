@@ -18,21 +18,21 @@
 // Configuración I2C para pantalla 128x32
 &pro_micro_i2c {
     status = "okay";
+    clock-frequency = <400000>;  // Velocidad más alta (400kHz)
     
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
         width = <128>;
         height = <32>;
-        segment-offset = <0>;
+        segment-offset = <2>;
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <31>;
         segment-remap;
         com-invdir;
         com-sequential;
-        inversion-on;
-        prechargep = <0xF1>;     // ← Cambiar de 0x22 a 0xF1
+        prechargep = <0xF1>;
     };
 };
 
