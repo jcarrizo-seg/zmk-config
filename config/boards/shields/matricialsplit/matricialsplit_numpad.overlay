@@ -30,8 +30,7 @@
         display-offset = <0>;
         multiplex-ratio = <31>;
         com-sequential;
-        prechargep = <0x22>;
-        vcomh = <0x20>;          // ← Agregar parámetro VCOMH
+        prechargep = <0xF1>;     // ← Cambiar de 0x22 a 0xF1
     };
 };
 
