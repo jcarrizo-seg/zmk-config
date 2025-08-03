@@ -18,10 +18,9 @@
 // Configuración I2C para pantalla 128x32
 &pro_micro_i2c {
     status = "okay";
-    clock-frequency = <100000>;
-
-    oled: ssd1306@3c {
-        compatible = "solomon,ssd1306fb";
+    
+    oled: sh1106@3c {
+        compatible = "sinowealth,sh1106";
         reg = <0x3c>;
         width = <128>;
         height = <32>;
@@ -29,11 +28,6 @@
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <31>;
-        segment-remap;
-        com-invdir;
-        com-sequential;
-        inversion-on;       // ← Todas las opciones
-        prechargep = <0x22>;
     };
 };
 
