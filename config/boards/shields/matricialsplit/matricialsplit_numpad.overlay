@@ -24,14 +24,12 @@
         reg = <0x3c>;
         width = <128>;
         height = <32>;
-        segment-offset = <0>;
+        segment-offset = <2>;    // ← Cambiar a 2
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <31>;
-        segment-remap;
-        com-invdir;
         prechargep = <0x22>;
-        // NO com-sequential, NO inversion-on
+        // Sin segment-remap ni com-invdir
     };
 };
 
