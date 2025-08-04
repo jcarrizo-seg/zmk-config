@@ -1,3 +1,4 @@
+name: usb-led
 build:
   cmake: .
   kconfig: Kconfig
