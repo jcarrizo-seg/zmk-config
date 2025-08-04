@@ -4,10 +4,10 @@
 #include <zephyr/devicetree.h>
 #include <zmk/events/usb_conn_state_changed.h>
 
-// LED rojo del Nice!Nano v2 (pin 0.09)
+// LED azul del Nice!Nano v2 (pin 0.06)
 static const struct gpio_dt_spec led = {
     .port = DEVICE_DT_GET(DT_NODELABEL(gpio0)),
-    .pin = 9,
+    .pin = 6,
     .dt_flags = GPIO_ACTIVE_HIGH
 };
 
@@ -22,9 +22,9 @@ static int usb_led_listener(const zmk_event_t *eh) {
         const struct zmk_usb_conn_state_changed *usb_ev = as_zmk_usb_conn_state_changed(eh);
         
         if (usb_ev->conn_state == ZMK_USB_CONN_POWERED) {
-            gpio_pin_set_dt(&led, 1);  // Encender LED rojo
+            gpio_pin_set_dt(&led, 1);  // Encender LED azul
         } else {
-            gpio_pin_set_dt(&led, 0);  // Apagar LED rojo
+            gpio_pin_set_dt(&led, 0);  // Apagar LED azul
         }
     }
     
@@ -46,9 +46,9 @@ static int usb_led_init(void) {
     // Test rápido: parpadear 3 veces al iniciar para confirmar que funciona
     for (int i = 0; i < 20; i++) {
         gpio_pin_set_dt(&led, 1);
-        k_msleep(100);
+        k_msleep(300);
         gpio_pin_set_dt(&led, 0);
-        k_msleep(100);
+        k_msleep(300);
     }
     
     return 0;
