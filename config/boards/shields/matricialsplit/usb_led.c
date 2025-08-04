@@ -46,9 +46,9 @@ static int usb_led_init(void) {
     // Test rápido: parpadear 3 veces al iniciar para confirmar que funciona
     for (int i = 0; i < 20; i++) {
         gpio_pin_set_dt(&led, 1);
-        k_msleep(300);
+        k_msleep(500);
         gpio_pin_set_dt(&led, 0);
-        k_msleep(300);
+        k_msleep(500);
     }
     
     return 0;

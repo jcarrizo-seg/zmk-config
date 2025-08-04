@@ -45,3 +45,9 @@
         zephyr,display = &oled;
     };
 };
+
+/ {
+    leds {
+        /delete-node/ blue_led;  // Eliminar definición del LED azul si existe
+    };
+};
