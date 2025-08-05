@@ -47,7 +47,15 @@
 };
 
 / {
-    leds {
-        /delete-node/ blue_led;  // Eliminar definición del LED azul si existe
+    usb_indicator {
+        compatible = "gpio-leds";
+        usb_led: usb_led {
+            gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
+            label = "USB Status LED";
+        };
+    };
+    
+    aliases {
+        usb-status-led = &usb_led;
     };
 };
