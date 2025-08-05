@@ -13,13 +13,13 @@ LOG_MODULE_REGISTER(battery_led, CONFIG_ZMK_LOG_LEVEL);
 // Definir los nodos de los LEDs
 #define RED_LED_NODE   DT_ALIAS(battery_red_led)
 #define GREEN_LED_NODE DT_ALIAS(battery_green_led)  
-#define BLUE_LED_NODE  DT_ALIAS(battery_blue_led)
+#define YELLOW_LED_NODE  DT_ALIAS(battery_yellow_led)
 
 // Verificar que los LEDs estén definidos
-#if DT_NODE_EXISTS(RED_LED_NODE) && DT_NODE_EXISTS(GREEN_LED_NODE) && DT_NODE_EXISTS(BLUE_LED_NODE)
+#if DT_NODE_EXISTS(RED_LED_NODE) && DT_NODE_EXISTS(GREEN_LED_NODE) && DT_NODE_EXISTS(YELLOW_LED_NODE)
     static const struct gpio_dt_spec red_led = GPIO_DT_SPEC_GET(RED_LED_NODE, gpios);
     static const struct gpio_dt_spec green_led = GPIO_DT_SPEC_GET(GREEN_LED_NODE, gpios);
-    static const struct gpio_dt_spec blue_led = GPIO_DT_SPEC_GET(BLUE_LED_NODE, gpios);
+    static const struct gpio_dt_spec yellow_led = GPIO_DT_SPEC_GET(YELLOW_LED_NODE, gpios);
     #define HAS_BATTERY_LEDS 1
 #else
     #define HAS_BATTERY_LEDS 0
@@ -35,7 +35,7 @@ static uint8_t battery_level = 100;  // Asumir batería llena al inicio
 static void turn_off_all_leds(void) {
     gpio_pin_set_dt(&red_led, 0);
     gpio_pin_set_dt(&green_led, 0);
-    gpio_pin_set_dt(&blue_led, 0);
+    gpio_pin_set_dt(&yellow_led, 0);
 }
 
 // Función para actualizar el estado de los LEDs
@@ -64,7 +64,7 @@ static void update_battery_leds(void) {
         // USB desconectado
         if (battery_level < CONFIG_BATTERY_LOW_THRESHOLD) {
             // Estado 2: USB desconectado + batería < umbral_inferior → LED azul
-            gpio_pin_set_dt(&blue_led, 1);
+            gpio_pin_set_dt(&yellow_led, 1);
             
             #ifdef CONFIG_BATTERY_LED_DEBUG
             LOG_INF("Battery LED: Blue (USB disconnected, low battery: %d%%)", battery_level);
@@ -120,7 +120,7 @@ static int init_battery_leds(void) {
     // Verificar que todos los GPIOs estén listos
     if (!gpio_is_ready_dt(&red_led) || 
         !gpio_is_ready_dt(&green_led) || 
-        !gpio_is_ready_dt(&blue_led)) {
+        !gpio_is_ready_dt(&yellow_led)) {
         LOG_ERR("Battery LEDs GPIO not ready");
         return -ENODEV;
     }
@@ -138,7 +138,7 @@ static int init_battery_leds(void) {
         return ret;
     }
     
-    ret = gpio_pin_configure_dt(&blue_led, GPIO_OUTPUT_INACTIVE);
+    ret = gpio_pin_configure_dt(&yellow_led, GPIO_OUTPUT_INACTIVE);
     if (ret < 0) {
         LOG_ERR("Failed to configure blue LED GPIO: %d", ret);
         return ret;

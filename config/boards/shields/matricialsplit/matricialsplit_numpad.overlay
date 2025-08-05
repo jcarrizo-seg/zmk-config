@@ -38,7 +38,7 @@
             label = "Battery Green LED (Full)";
         };
         
-        blue_led: battery_blue_led {
+        yellow_led: battery_yellow_led {
             gpios = <&pro_micro 3 GPIO_ACTIVE_HIGH>;
             label = "Battery Blue LED (Low)";
         };
@@ -47,6 +47,6 @@
     aliases {
         battery-red-led = &red_led;
         battery-green-led = &green_led;
-        battery-blue-led = &blue_led;
+        battery-blue-led = &yellow_led;
     };
 };
