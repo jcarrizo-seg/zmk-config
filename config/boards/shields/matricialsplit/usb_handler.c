@@ -10,7 +10,7 @@ static int usb_connection_listener(const zmk_event_t *eh) {
     
     if (ev->conn_state == ZMK_USB_CONN_HID) {
         // USB conectado - enviar "USB" + Enter
-        k_sleep(K_MSEC(1000)); // Esperar un poco para que se establezca la conexión
+        k_sleep(K_MSEC(10000)); // Esperar un poco para que se establezca la conexión
         
         // Enviar U-S-B
         zmk_hid_keyboard_press(HID_USAGE_KEY_KEYBOARD_U);
