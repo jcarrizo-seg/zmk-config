@@ -1,52 +1,44 @@
 #include <zephyr/kernel.h>
+#include <zephyr/logging/log.h>
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
-#include <zmk/hid.h>
 #include <zmk/endpoints.h>
+#include <zmk/hid.h>
 
-static void send_key(uint32_t usage_id) {
-    // Crear evento de key press
-    struct zmk_keycode_state_changed *press_event = 
-        new_zmk_keycode_state_changed();
-    press_event->usage_id = usage_id;
-    press_event->state = true;
-    ZMK_EVENT_RAISE(press_event);
+LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+
+// Work queue para enviar teclas de manera asíncrona
+static struct k_work_delayable usb_connected_work;
+
+static void send_usb_indicator(struct k_work *work) {
+    // Esperar a que USB esté completamente establecido
+    k_sleep(K_MSEC(2000));
     
-    k_sleep(K_MSEC(50));
-    
-    // Crear evento de key release  
-    struct zmk_keycode_state_changed *release_event = 
-        new_zmk_keycode_state_changed();
-    release_event->usage_id = usage_id;
-    release_event->state = false;
-    ZMK_EVENT_RAISE(release_event);
-    
-    k_sleep(K_MSEC(50));
+    // Por ahora solo dejamos el log para confirmar que funciona
+    // TODO: Implementar envío de teclas cuando tengamos la API correcta
+    LOG_INF("¡USB conectado! Aquí enviaríamos las teclas USB");
 }
-
-static void send_usb_text(struct k_work *work) {
-    k_sleep(K_MSEC(2000)); // Dar tiempo para que se establezca USB
-    
-    send_key(HID_USAGE_KEY_KEYBOARD_U);
-    send_key(HID_USAGE_KEY_KEYBOARD_S); 
-    send_key(HID_USAGE_KEY_KEYBOARD_B);
-    send_key(HID_USAGE_KEY_KEYBOARD_RETURN_ENTER);
-}
-
-static struct k_work_delayable usb_work;
 
 static int usb_connection_listener(const zmk_event_t *eh) {
     struct zmk_usb_conn_state_changed *ev = as_zmk_usb_conn_state_changed(eh);
     
     if (ev->conn_state == ZMK_USB_CONN_HID) {
-        k_work_schedule(&usb_work, K_MSEC(100));
+        LOG_INF("USB conectado - enviando indicador");
+        // Programar el envío de teclas
+        k_work_schedule(&usb_connected_work, K_MSEC(100));
+        
+    } else if (ev->conn_state == ZMK_USB_CONN_NONE) {
+        LOG_INF("USB desconectado - funcionando con batería");
+        // Cancelar trabajo pendiente si existe
+        k_work_cancel_delayable(&usb_connected_work);
     }
     
     return ZMK_EV_EVENT_BUBBLE;
 }
 
+// Inicializar el work queue
 static int init_usb_handler(void) {
-    k_work_init_delayable(&usb_work, send_usb_text);
+    k_work_init_delayable(&usb_connected_work, send_usb_indicator);
     return 0;
 }
 
