@@ -1,6 +1,0 @@
-config ZMK_USB_LED
-    bool "USB LED indicator"
-    default n
-    depends on GPIO
-    help
-      Enable USB connection LED indicator using red LED

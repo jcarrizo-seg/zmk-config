@@ -1,2 +1,2 @@
-# Custom code for USB LED
-target_sources(app PRIVATE usb_led.c)
+# Agregar el archivo C al build
+target_sources(app PRIVATE usb_handler.c)
