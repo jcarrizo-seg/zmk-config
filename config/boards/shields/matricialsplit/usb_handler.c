@@ -1,36 +1,12 @@
 #include <zephyr/kernel.h>
 #include <zmk/events/usb_conn_state_changed.h>
-#include <zmk/events/keycode_state_changed.h>
 #include <zmk/event_manager.h>
-#include <dt-bindings/zmk/keys.h>
 
 // Work queue para enviar teclas de manera asíncrona
 static struct k_work_delayable usb_connected_work;
 
-// Función para enviar una tecla
-static void send_keypress(uint32_t keycode) {
-    // Crear y enviar evento de press
-    struct zmk_keycode_state_changed *press_ev = new_zmk_keycode_state_changed();
-    if (press_ev != NULL) {
-        press_ev->usage_id = keycode;
-        press_ev->state = true;
-        press_ev->timestamp = k_uptime_get();
-        ZMK_EVENT_RAISE(press_ev);
-    }
-    
-    k_sleep(K_MSEC(50));
-    
-    // Crear y enviar evento de release
-    struct zmk_keycode_state_changed *release_ev = new_zmk_keycode_state_changed();
-    if (release_ev != NULL) {
-        release_ev->usage_id = keycode;
-        release_ev->state = false;
-        release_ev->timestamp = k_uptime_get();
-        ZMK_EVENT_RAISE(release_ev);
-    }
-    
-    k_sleep(K_MSEC(50));
-}
+// Work queue para enviar indicador USB
+static struct k_work_delayable usb_connected_work;
 
 // Variable global para indicar estado USB
 static bool usb_is_connected = false;
@@ -39,11 +15,9 @@ static void send_usb_indicator(struct k_work *work) {
     // Esperar a que USB esté completamente establecido
     k_sleep(K_MSEC(2000));
     
-    // Enviar "USB" + Enter
-    send_keypress(U);  // U
-    send_keypress(S);  // S  
-    send_keypress(B);  // B
-    send_keypress(RET); // Enter
+    // Crear un delay artificial que puedas notar
+    // Si funciona, el teclado se sentirá "lento" por 10 segundos
+    k_sleep(K_MSEC(10000));
     
     usb_is_connected = true;
 }
