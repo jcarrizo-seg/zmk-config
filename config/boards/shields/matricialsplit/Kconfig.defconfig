@@ -61,3 +61,44 @@ config BT_MAX_PAIRED
     default 8
 
 endif
+
+if SHIELD_MATRICIALSPLIT_LEFT || SHIELD_MATRICIALSPLIT_RIGHT || SHIELD_MATRICIALSPLIT_NUMPAD
+
+# Habilitar soporte para LEDs de batería por defecto en este shield
+config BATTERY_LED_INDICATOR
+    bool "Enable battery LED indicator"
+    default y
+    select GPIO
+    help
+      Enable battery status indication using RGB LEDs.
+      Shows charging status and battery level using colored LEDs.
+
+if BATTERY_LED_INDICATOR
+
+config BATTERY_LOW_THRESHOLD
+    int "Battery low threshold percentage"
+    default 20
+    range 5 50
+    help
+      Battery percentage threshold below which the blue LED will turn on
+      when USB is disconnected, indicating low battery.
+
+config BATTERY_FULL_THRESHOLD
+    int "Battery full charge threshold percentage"  
+    default 85
+    range 50 95
+    help
+      Battery percentage threshold above which the green LED will turn on
+      when USB is connected, indicating battery is considered full.
+
+# config BATTERY_LED_DEBUG
+#     bool "Enable battery LED debug logging"
+#     default n
+#     depends on LOG
+#     help
+#       Enable debug logging for battery LED status changes.
+#       Useful for troubleshooting battery level detection.
+
+endif # BATTERY_LED_INDICATOR
+
+endif # SHIELD_MATRICIALSPLIT_*

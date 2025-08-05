@@ -20,21 +20,33 @@
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
-        // zmk,display = &oled;  // Agregar referencia a la pantalla
-        // zephyr,display = &oled;
     };
 };
 
 / {
-    usb_indicator {
+    // LEDs indicadores de batería - configurables por shield
+    battery_indicator_leds {
         compatible = "gpio-leds";
-        usb_led: usb_led {
-            gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
-            label = "USB Status LED";
+        
+        red_led: battery_red_led {
+            gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
+            label = "Battery Red LED (Charging)";
+        };
+        
+        green_led: battery_green_led {
+            gpios = <&pro_micro 2 GPIO_ACTIVE_HIGH>;
+            label = "Battery Green LED (Full)";
+        };
+        
+        blue_led: battery_blue_led {
+            gpios = <&pro_micro 3 GPIO_ACTIVE_HIGH>;
+            label = "Battery Blue LED (Low)";
         };
     };
     
     aliases {
-        usb-status-led = &usb_led;
+        battery-red-led = &red_led;
+        battery-green-led = &green_led;
+        battery-blue-led = &blue_led;
     };
 };
