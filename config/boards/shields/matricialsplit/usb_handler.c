@@ -3,7 +3,7 @@
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
 
-// LED azul en P0.15
+// LED rojo en P0.15
 #define LED_BLUE_NODE DT_NODELABEL(gpio0)
 static const struct gpio_dt_spec blue_led = {
     .port = DEVICE_DT_GET(LED_BLUE_NODE),
