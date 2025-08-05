@@ -1,6 +1,15 @@
 #include <zephyr/kernel.h>
+#include <zephyr/drivers/gpio.h>
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
+
+// Definir el LED azul en P0.15
+#define LED_BLUE_NODE DT_NODELABEL(gpio0)
+static const struct gpio_dt_spec blue_led = {
+    .port = DEVICE_DT_GET(LED_BLUE_NODE),
+    .pin = 15,
+    .dt_flags = GPIO_ACTIVE_LOW
+};
 
 // Work queue para enviar teclas de manera asíncrona
 static struct k_work_delayable usb_connected_work;
@@ -15,9 +24,10 @@ static void send_usb_indicator(struct k_work *work) {
     // Esperar a que USB esté completamente establecido
     k_sleep(K_MSEC(2000));
     
-    // Crear un delay artificial que puedas notar
-    // Si funciona, el teclado se sentirá "lento" por 10 segundos
+    // Encender LED azul por 5 segundos
+    gpio_pin_set_dt(&blue_led, 1);
     k_sleep(K_MSEC(10000));
+    gpio_pin_set_dt(&blue_led, 0);
     
     usb_is_connected = true;
 }
@@ -43,9 +53,21 @@ bool is_usb_connected(void) {
     return usb_is_connected;
 }
 
-// Inicializar el work queue
+// Inicializar el LED al arrancar
 static int init_usb_handler(void) {
+    // Inicializar work queue
     k_work_init_delayable(&usb_connected_work, send_usb_indicator);
+    
+    // Configurar LED como salida
+    if (!gpio_is_ready_dt(&blue_led)) {
+        return -ENODEV;
+    }
+    
+    int ret = gpio_pin_configure_dt(&blue_led, GPIO_OUTPUT_INACTIVE);
+    if (ret < 0) {
+        return ret;
+    }
+    
     return 0;
 }
 
