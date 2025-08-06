@@ -7,7 +7,7 @@
 #define LED_RED_NODE DT_NODELABEL(gpio0)
 static const struct gpio_dt_spec red_led = {
     .port = DEVICE_DT_GET(LED_RED_NODE),
-    .pin = 15,
+    .pin = 8,
     .dt_flags = GPIO_ACTIVE_HIGH
 };
 
