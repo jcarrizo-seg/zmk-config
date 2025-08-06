@@ -23,30 +23,30 @@
     };
 };
 
-/ {
-    // LEDs indicadores de batería - configurables por shield
-    battery_indicator_leds {
-        compatible = "gpio-leds";
+// / {
+//     // LEDs indicadores de batería - configurables por shield
+//     battery_indicator_leds {
+//         compatible = "gpio-leds";
         
-        red_led: battery_red_led {
-            gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
-            label = "Battery Red LED (Charging)";
-        };
+//         red_led: battery_red_led {
+//             gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
+//             label = "Battery Red LED (Charging)";
+//         };
         
-        green_led: battery_green_led {
-            gpios = <&pro_micro 2 GPIO_ACTIVE_HIGH>;
-            label = "Battery Green LED (Full)";
-        };
+//         green_led: battery_green_led {
+//             gpios = <&pro_micro 2 GPIO_ACTIVE_HIGH>;
+//             label = "Battery Green LED (Full)";
+//         };
         
-        yellow_led: battery_yellow_led {
-            gpios = <&pro_micro 3 GPIO_ACTIVE_HIGH>;
-            label = "Battery Blue LED (Low)";
-        };
-    };
+//         yellow_led: battery_yellow_led {
+//             gpios = <&pro_micro 3 GPIO_ACTIVE_HIGH>;
+//             label = "Battery Blue LED (Low)";
+//         };
+//     };
     
-    aliases {
-        battery-red-led = &red_led;
-        battery-green-led = &green_led;
-        battery-blue-led = &yellow_led;
-    };
-};
+//     aliases {
+//         battery-red-led = &red_led;
+//         battery-green-led = &green_led;
+//         battery-blue-led = &yellow_led;
+//     };
+// };
