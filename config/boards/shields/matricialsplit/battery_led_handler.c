@@ -42,6 +42,11 @@ static void turn_off_all_leds(void) {
 static void update_battery_leds(void) {
     // Primero apagar todos los LEDs
     turn_off_all_leds();
+
+    gpio_pin_set_dt(&yellow_led, 1);
+    k_sleep(K_MSEC(2000));
+    gpio_pin_set_dt(&yellow_led, 0);
+    k_sleep(K_MSEC(2000));
     
     if (usb_connected) {
         // USB conectado
