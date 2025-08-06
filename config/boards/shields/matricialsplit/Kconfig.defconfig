@@ -62,43 +62,31 @@ config BT_MAX_PAIRED
 
 endif
 
-if SHIELD_MATRICIALSPLIT_LEFT || SHIELD_MATRICIALSPLIT_RIGHT || SHIELD_MATRICIALSPLIT_NUMPAD
+# Kconfig.defconfig para Battery Status LEDs Module
+# Archivo: config/boards/shields/mi_teclado/Kconfig.defconfig
 
-# Habilitar soporte para LEDs de batería por defecto en este shield
-config BATTERY_LED_INDICATOR
-    bool "Enable battery LED indicator"
+# Configuración por defecto cuando se usa este shield
+
+if SHIELD_MATRICIALSPLIT_NUMPAD
+
+# Habilitar dependencias requeridas para Battery Status LEDs
+config ZMK_BATTERY_REPORTING
     default y
-    select GPIO
+
+config GPIO
+    default y
+
+config LOG
+    default n
+
+# Configuración específica para el módulo (opcional)
+config ZMK_BATTERY_STATUS_LEDS
+    bool "Enable Battery Status LEDs"
+    default y
+    depends on ZMK_BATTERY_REPORTING && GPIO
     help
-      Enable battery status indication using RGB LEDs.
-      Shows charging status and battery level using colored LEDs.
+      Enable battery status indication using individual LEDs.
+      Requires red-gpio, green-gpio, and blue-gpio to be defined
+      in devicetree under battery_status_leds node.
 
-if BATTERY_LED_INDICATOR
-
-config BATTERY_LOW_THRESHOLD
-    int "Battery low threshold percentage"
-    default 20
-    range 5 50
-    help
-      Battery percentage threshold below which the blue LED will turn on
-      when USB is disconnected, indicating low battery.
-
-config BATTERY_FULL_THRESHOLD
-    int "Battery full charge threshold percentage"  
-    default 85
-    range 50 95
-    help
-      Battery percentage threshold above which the green LED will turn on
-      when USB is connected, indicating battery is considered full.
-
-# config BATTERY_LED_DEBUG
-#     bool "Enable battery LED debug logging"
-#     default n
-#     depends on LOG
-#     help
-#       Enable debug logging for battery LED status changes.
-#       Useful for troubleshooting battery level detection.
-
-endif # BATTERY_LED_INDICATOR
-
-endif # SHIELD_MATRICIALSPLIT_*
+endif # SHIELD_MATRICIALSPLIT_NUMPAD
