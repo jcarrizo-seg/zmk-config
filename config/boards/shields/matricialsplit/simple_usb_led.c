@@ -17,10 +17,12 @@ static int usb_connection_listener(const zmk_event_t *eh) {
     if (ev->conn_state == ZMK_USB_CONN_HID) {
         // USB conectado - encender LED
         gpio_pin_set_dt(&red_led, 1);
-        k_sleep(K_MSEC(10000));
+        k_sleep(K_MSEC(2000));
         gpio_pin_set_dt(&red_led, 0);
-        k_sleep(K_MSEC(10000));
+        k_sleep(K_MSEC(2000));
         gpio_pin_set_dt(&red_led, 1);
+        k_sleep(K_MSEC(2000));
+        gpio_pin_set_dt(&red_led, 0);
         
     } else if (ev->conn_state == ZMK_USB_CONN_NONE) {
         // USB desconectado - apagar LED
