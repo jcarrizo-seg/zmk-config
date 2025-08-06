@@ -75,13 +75,13 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
  * Convertir propiedades device tree a estructuras gpio_dt_spec
  */
 static const struct gpio_dt_spec red_led = 
-    GPIO_DT_SPEC_GET(BATTERY_STATUS_LEDS_NODE, red_gpio);
+    GPIO_DT_SPEC_GET(BATTERY_STATUS_LEDS_NODE, red_gpios);
 
 static const struct gpio_dt_spec green_led = 
-    GPIO_DT_SPEC_GET(BATTERY_STATUS_LEDS_NODE, green_gpio);
+    GPIO_DT_SPEC_GET(BATTERY_STATUS_LEDS_NODE, green_gpios);
 
 static const struct gpio_dt_spec blue_led = 
-    GPIO_DT_SPEC_GET(BATTERY_STATUS_LEDS_NODE, blue_gpio);
+    GPIO_DT_SPEC_GET(BATTERY_STATUS_LEDS_NODE, blue_gpios);
 
 /*
  * VARIABLES GLOBALES

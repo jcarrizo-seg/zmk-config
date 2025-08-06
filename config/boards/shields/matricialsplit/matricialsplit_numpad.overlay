@@ -41,9 +41,9 @@
          * - Números: P1.04, P1.06, P1.11 según tu selección
          * - GPIO_ACTIVE_HIGH: LED se enciende con señal alta
          */
-        red-gpio = <&gpio1 4 GPIO_ACTIVE_HIGH>;     // P1.04 - LED rojo
-        green-gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;   // P1.06 - LED verde  
-        blue-gpio = <&gpio1 11 GPIO_ACTIVE_HIGH>;   // P1.11 - LED azul
+        red-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;     // P1.04 - LED rojo
+        green-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;   // P1.06 - LED verde  
+        blue-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;   // P1.11 - LED azul
         
         /*
          * Configuración de umbrales (opcional)

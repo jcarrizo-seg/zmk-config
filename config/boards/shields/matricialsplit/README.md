@@ -32,9 +32,9 @@ Módulo personalizado para ZMK que proporciona indicación visual del estado de 
         compatible = "zmk,battery-status-leds";
         status = "okay";
         
-        red-gpio = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-        green-gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-        blue-gpio = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+        red-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+        green-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+        blue-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
         // Usa defaults: low=20%, full=95%
     };
 };
@@ -47,9 +47,9 @@ Módulo personalizado para ZMK que proporciona indicación visual del estado de 
         compatible = "zmk,battery-status-leds";
         status = "okay";
         
-        red-gpio = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-        green-gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-        blue-gpio = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+        red-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+        green-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+        blue-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
         
         low-threshold = <25>;   // Batería baja a 25%
         full-threshold = <90>;  // Cargada a 90%

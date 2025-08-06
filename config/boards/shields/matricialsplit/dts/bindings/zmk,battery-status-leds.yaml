@@ -17,26 +17,26 @@ description: |
 compatible: "zmk,battery-status-leds"
 
 properties:
-  red-gpio:
+  red-gpios:
     type: phandle-array
     required: true
     description: |
       GPIO for red LED (used for charging indication)
-      Example: red-gpio = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+      Example: red-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
 
-  green-gpio:
+  green-gpios:
     type: phandle-array  
     required: true
     description: |
       GPIO for green LED (used for charged/no-battery indication)
-      Example: green-gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+      Example: green-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
 
-  blue-gpio:
+  blue-gpios:
     type: phandle-array
     required: true  
     description: |
       GPIO for blue LED (used for low battery indication)
-      Example: blue-gpio = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+      Example: blue-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
 
   low-threshold:
     type: int
