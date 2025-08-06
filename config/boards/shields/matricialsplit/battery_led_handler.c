@@ -89,6 +89,8 @@ static void update_battery_leds(void) {
 // Listener para cambios en el estado de la batería
 static int battery_state_listener(const zmk_event_t *eh) {
     struct zmk_battery_state_changed *ev = as_zmk_battery_state_changed(eh);
+
+    update_battery_leds();
     
     battery_level = ev->state_of_charge;
     
@@ -104,6 +106,8 @@ static int battery_state_listener(const zmk_event_t *eh) {
 // Listener para cambios en el estado USB
 static int usb_conn_state_listener(const zmk_event_t *eh) {
     struct zmk_usb_conn_state_changed *ev = as_zmk_usb_conn_state_changed(eh);
+
+    update_battery_leds();
     
     bool new_usb_state = (ev->conn_state != ZMK_USB_CONN_NONE);
     
