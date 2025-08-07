@@ -1,0 +1,57 @@
+# Device Tree Binding para Battery Status LEDs
+# Archivo: config/boards/shields/mi_teclado/dts/bindings/zmk,battery-status-leds.yaml
+
+description: |
+  Battery Status LEDs Indicator for ZMK
+  
+  This binding defines a battery status indicator using individual LEDs
+  to show battery level and charging status.
+  
+  LED States:
+  - No battery sensor: Green LED (constant)  
+  - Battery low (< low-threshold, no USB): Blue LED (constant)
+  - Battery OK (>= low-threshold, no USB): All LEDs off
+  - Charging (< full-threshold, USB connected): Red LED (constant)
+  - Charged (>= full-threshold, USB connected): Green LED (constant)
+
+compatible: "zmk,battery-status-leds"
+
+properties:
+  red-gpios:
+    type: phandle-array
+    required: true
+    description: |
+      GPIO for red LED (used for charging indication)
+      Example: red-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+
+  green-gpios:
+    type: phandle-array  
+    required: true
+    description: |
+      GPIO for green LED (used for charged/no-battery indication)
+      Example: green-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+
+  blue-gpios:
+    type: phandle-array
+    required: true  
+    description: |
+      GPIO for blue LED (used for low battery indication)
+      Example: blue-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+
+  low-threshold:
+    type: int
+    default: 20
+    description: |
+      Battery level threshold for low battery indication (in percentage).
+      When battery level falls below this value (and USB not connected),
+      blue LED will be activated.
+      Valid range: 5-40. Must be at least 10% less than full-threshold.
+
+  full-threshold:
+    type: int
+    default: 95
+    description: |
+      Battery level threshold for full battery indication (in percentage).
+      When battery level reaches this value (and USB connected),
+      green LED will be activated instead of red charging LED.
+      Valid range: 60-100. Must be at least 10% more than low-threshold.
