@@ -41,7 +41,7 @@ config ZMK_KEYBOARD_NAME
     default "Matricial Numpad"
 
 config ZMK_SPLIT_ROLE_CENTRAL
-    default n
+    default y
 
 config ZMK_SPLIT
     default y
