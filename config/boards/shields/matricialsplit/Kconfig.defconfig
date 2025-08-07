@@ -15,3 +15,32 @@ config ZMK_SPLIT
     default y
 
 endif
+
+# Kconfig.defconfig para Battery Status LEDs Module
+# Archivo: config/boards/shields/mi_teclado/Kconfig.defconfig
+
+# Configuración por defecto cuando se usa este shield
+
+if SHIELD_MATRICIALSPLIT_LEFT
+
+# Habilitar dependencias requeridas para Battery Status LEDs
+config ZMK_BATTERY_REPORTING
+    default y
+
+config GPIO
+    default y
+
+config LOG
+    default n
+
+# Configuración específica para el módulo (opcional)
+config ZMK_BATTERY_STATUS_LEDS
+    bool "Enable Battery Status LEDs"
+    default y
+    depends on ZMK_BATTERY_REPORTING && GPIO
+    help
+      Enable battery status indication using individual LEDs.
+      Requires red-gpio, green-gpio, and blue-gpio to be defined
+      in devicetree under battery_status_leds node.
+
+endif # SHIELD_MATRICIALSPLIT_LEFT
