@@ -1,6 +1,6 @@
 /*
  * Battery Status LEDs Module for ZMK
- * Archivo: config/boards/shields/mi_teclado/battery_status_leds.c
+ * Archivo: config/boards/shields/matricialsplit/battery_status_leds.c
  */
 
 #include <zephyr/kernel.h>
@@ -14,13 +14,14 @@
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
 
-LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+// ✅ CORREGIDO: Crear nuestro propio módulo de logging
+LOG_MODULE_REGISTER(battery_leds, CONFIG_ZMK_LOG_LEVEL);
 
 /*
  * CONFIGURACIÓN DEVICE TREE
- * Obtener referencia al nodo usando el label definido en el overlay
+ * ✅ CORREGIDO: Usar DT_PATH en lugar de DT_NODELABEL
  */
-#define BATTERY_STATUS_LEDS_NODE DT_NODELABEL(battery_status_leds)
+#define BATTERY_STATUS_LEDS_NODE DT_PATH(battery_status_leds)
 
 /*
  * VALIDACIONES DE COMPILACIÓN
@@ -45,7 +46,6 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 /*
  * VALIDACIONES ESTRICTAS DE UMBRALES
- * Estas macros causan errores de compilación si los valores son inválidos
  */
 #if DT_NODE_HAS_PROP(BATTERY_STATUS_LEDS_NODE, low_threshold)
     #define USER_LOW_THRESHOLD DT_PROP(BATTERY_STATUS_LEDS_NODE, low_threshold)
@@ -72,7 +72,6 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 /*
  * CONFIGURACIÓN GPIO
- * Convertir propiedades device tree a estructuras gpio_dt_spec
  */
 static const struct gpio_dt_spec red_led = 
     GPIO_DT_SPEC_GET(BATTERY_STATUS_LEDS_NODE, red_gpios);
@@ -92,11 +91,6 @@ static bool module_initialized = false;
  * FUNCIONES AUXILIARES
  */
 
-/**
- * Configurar estado de un LED
- * @param led_spec: Especificación GPIO del LED
- * @param state: true = encender, false = apagar
- */
 static void set_led_state(const struct gpio_dt_spec *led_spec, bool state) {
     if (!device_is_ready(led_spec->port)) {
         LOG_ERR("LED GPIO device not ready");
@@ -106,20 +100,15 @@ static void set_led_state(const struct gpio_dt_spec *led_spec, bool state) {
     gpio_pin_set_dt(led_spec, state);
 }
 
-/**
- * Apagar todos los LEDs
- */
 static void turn_off_all_leds(void) {
     set_led_state(&red_led, false);
     set_led_state(&green_led, false);
     set_led_state(&blue_led, false);
 }
 
-/**
- * Actualizar estado de LEDs según batería y USB
- */
 static void update_battery_status_leds(void) {
     if (!module_initialized) {
+        LOG_WRN("Module not initialized yet");
         return;
     }
 
@@ -131,18 +120,6 @@ static void update_battery_status_leds(void) {
     
     // Apagar todos primero
     turn_off_all_leds();
-    
-    /*
-     * LÓGICA DE ESTADOS:
-     * 
-     * | Condición           | Batería | USB | R | G | B |
-     * |--------------------|---------|----- |---|---|---|
-     * | Sin sensor batería | N/A     | any | - | ✓ | - |
-     * | Batería baja       | < 20%   | no  | - | - | ✓ |
-     * | Batería OK         | ≥ 20%   | no  | - | - | - |
-     * | Cargando           | < 95%   | sí  | ✓ | - | - |
-     * | Cargada            | ≥ 95%   | sí  | - | ✓ | - |
-     */
     
     if (battery_level == -1) {
         // Sin sensor de batería - LED verde fijo para testing
@@ -160,7 +137,6 @@ static void update_battery_status_leds(void) {
         } else {
             // Batería OK - LEDs apagados
             LOG_INF("Battery OK (%d%%), LEDs off", battery_level);
-            // Ya están apagados
         }
     } else {
         // USB conectado
@@ -179,19 +155,12 @@ static void update_battery_status_leds(void) {
 /*
  * EVENT HANDLERS
  */
-
-/**
- * Handler para cambios de estado de batería
- */
 static int battery_state_changed_handler(const zmk_event_t *eh) {
     LOG_INF("Battery state changed event received");
     update_battery_status_leds();
     return ZMK_EV_EVENT_BUBBLE;
 }
 
-/**
- * Handler para cambios de conexión USB
- */
 static int usb_conn_state_changed_handler(const zmk_event_t *eh) {
     LOG_INF("USB connection state changed event received");
     update_battery_status_leds();
@@ -211,8 +180,9 @@ ZMK_SUBSCRIPTION(battery_status_leds_usb_listener, zmk_usb_conn_state_changed);
  * INICIALIZACIÓN
  */
 static int battery_status_leds_init(void) {
-    LOG_INF("Initializing Battery Status LEDs");
-    LOG_INF("Thresholds: low=%d%%, full=%d%%", USER_LOW_THRESHOLD, USER_FULL_THRESHOLD);
+    // ✅ LOGS MÁS VISIBLES para debug
+    LOG_ERR("=== BATTERY STATUS LEDS INIT START ===");
+    LOG_ERR("Thresholds: low=%d%%, full=%d%%", USER_LOW_THRESHOLD, USER_FULL_THRESHOLD);
     
     // Verificar que todos los GPIO devices estén listos
     if (!device_is_ready(red_led.port)) {
@@ -229,6 +199,8 @@ static int battery_status_leds_init(void) {
         LOG_ERR("Blue LED GPIO device not ready");
         return -ENODEV;
     }
+    
+    LOG_ERR("All GPIO devices are ready");
     
     // Configurar pines como salida
     int ret;
@@ -251,19 +223,20 @@ static int battery_status_leds_init(void) {
         return ret;
     }
     
+    LOG_ERR("All GPIO pins configured successfully");
+    
     // Marcar como inicializado
     module_initialized = true;
     
     // Actualizar estado inicial
     update_battery_status_leds();
     
-    LOG_INF("Battery Status LEDs initialized successfully");
+    LOG_ERR("=== BATTERY STATUS LEDS INIT COMPLETE ===");
     return 0;
 }
 
 /*
- * SISTEMA DE INICIALIZACIÓN DE ZEPHYR
- * POST_KERNEL: Se ejecuta después de que el kernel esté listo
- * CONFIG_APPLICATION_INIT_PRIORITY: Prioridad de inicialización
+ * ✅ CORREGIDO: Cambiar de POST_KERNEL a APPLICATION
+ * para asegurar que ZMK esté completamente inicializado
  */
-SYS_INIT(battery_status_leds_init, POST_KERNEL, CONFIG_APPLICATION_INIT_PRIORITY);
+SYS_INIT(battery_status_leds_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
