@@ -15,7 +15,7 @@
 #include <zmk/event_manager.h>
 
 // ✅ CORREGIDO: Crear nuestro propio módulo de logging
-LOG_MODULE_REGISTER(battery_leds, CONFIG_ZMK_LOG_LEVEL);
+LOG_MODULE_REGISTER(battery_leds, CONFIG_LOG_DEFAULT_LEVEL);
 
 /*
  * CONFIGURACIÓN DEVICE TREE
