@@ -88,6 +88,41 @@ static const struct gpio_dt_spec blue_led =
 static bool module_initialized = false;
 
 /*
+ * FUNCIONES PARA LOGS DETALLADOS DE INICIALIZACIÓN
+ */
+
+// Función para reportar estado completo del sistema
+static void log_system_state(const char* context) {
+    int uptime = k_uptime_get_32();
+    int battery_level = zmk_battery_state_of_charge();
+    bool usb_connected = zmk_usb_is_powered();
+    
+    LOG_ERR("=== SYSTEM STATE [%s] ===", context);
+    LOG_ERR("Uptime: %d ms", uptime);
+    LOG_ERR("USB powered: %s", usb_connected ? "YES" : "NO");  
+    LOG_ERR("Battery level: %d%%", battery_level);
+    LOG_ERR("Module initialized: %s", module_initialized ? "YES" : "NO");
+    LOG_ERR("=========================");
+}
+
+// Work timer para reportar estado periódicamente
+static void status_timer_handler(struct k_work *work);
+K_WORK_DELAYABLE_DEFINE(status_timer, status_timer_handler);
+
+static void status_timer_handler(struct k_work *work) {
+    static int report_count = 0;
+    
+    report_count++;
+    LOG_ERR("--- Status Report #%d ---", report_count);
+    log_system_state("TIMER");
+    
+    // Reprogramar para el próximo reporte (cada 10 segundos por 1 minuto)
+    if (report_count < 6) {
+        k_work_schedule(&status_timer, K_SECONDS(10));
+    }
+}
+
+/*
  * FUNCIONES AUXILIARES
  */
 
@@ -177,10 +212,17 @@ ZMK_LISTENER(battery_status_leds_usb_listener, usb_conn_state_changed_handler);
 ZMK_SUBSCRIPTION(battery_status_leds_usb_listener, zmk_usb_conn_state_changed);
 
 /*
- * INICIALIZACIÓN
+ * INICIALIZACIÓN MEJORADA CON LOGS DETALLADOS
  */
 static int battery_status_leds_init(void) {
-    // ✅ LOGS MÁS VISIBLES para debug
+    // AGREGAR delay inicial para dar tiempo a conectar USB
+    LOG_ERR("=== BATTERY STATUS LEDS MODULE STARTING ===");
+    LOG_ERR("Waiting 3 seconds for USB connection...");
+    k_msleep(3000);  // 3 segundos de delay
+    
+    // Log estado inicial
+    log_system_state("INIT_START");
+    
     LOG_ERR("=== BATTERY STATUS LEDS INIT START ===");
     LOG_ERR("Thresholds: low=%d%%, full=%d%%", USER_LOW_THRESHOLD, USER_FULL_THRESHOLD);
     
@@ -228,8 +270,14 @@ static int battery_status_leds_init(void) {
     // Marcar como inicializado
     module_initialized = true;
     
+    // Log estado después de init
+    log_system_state("INIT_COMPLETE");
+    
     // Actualizar estado inicial
     update_battery_status_leds();
+    
+    // Iniciar timer de reportes periódicos
+    k_work_schedule(&status_timer, K_SECONDS(5));
     
     LOG_ERR("=== BATTERY STATUS LEDS INIT COMPLETE ===");
     return 0;
