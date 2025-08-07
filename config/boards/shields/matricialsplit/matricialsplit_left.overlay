@@ -12,6 +12,8 @@
 
     chosen {
         zmk,split = &split;
+        zephyr,console = &cdc_acm_uart0;
+        zephyr,shell-uart = &cdc_acm_uart0;
     };
 
     split: split {
@@ -71,5 +73,13 @@
          */
         low-threshold = <20>;   // Batería baja: menor a 20%
         full-threshold = <95>;  // Batería cargada: mayor o igual a 95%
+    };
+};
+
+// Habilita CDC ACM para USB logging
+&usbd {
+    status = "okay";
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
     };
 };
