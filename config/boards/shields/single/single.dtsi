@@ -26,15 +26,15 @@
             label = "Green LED";
         };
         led_red: led_1 {
-            gpios = <&pro_micro 11 GPIO_ACTIVE_HIGH>;
+            gpios = <&pro_micro 16 GPIO_ACTIVE_HIGH>;
             label = "Red LED";
         };
         led_yellow: led_2 {
-            gpios = <&pro_micro 12 GPIO_ACTIVE_HIGH>;
+            gpios = <&pro_micro 14 GPIO_ACTIVE_HIGH>;
             label = "Yellow LED";
         };
         led_blue: led_3 {
-            gpios = <&pro_micro 13 GPIO_ACTIVE_HIGH>;
+            gpios = <&pro_micro 15 GPIO_ACTIVE_HIGH>;
             label = "Blue LED";
         };
     };
