@@ -22,12 +22,11 @@ class BatteryMonitor:
         self.patterns = {
             'battery_status': r'=== BATTERY STATUS ===',
             'battery_level': r'Battery level: (\d+)%',
-            'battery_voltage': r'Battery voltage: (\d+) mV \(([\d.]+) V\)',
             'led_status': r'LED Status: (\w+) \((\w+)\)',
             'module_start': r'=== BATTERY LED MODULE STARTED ===',
             'initial_level': r'Initial battery level: (\d+)%',
-            'initial_voltage': r'Initial battery voltage: (\d+) mV',
-            'led_pins': r'LEDs configured on pins:'
+            'led_pins': r'LEDs configured on pins:',
+            'battery_interval': r'Battery reporting interval: (\d+) seconds'
         }
         
     def find_zmk_device(self):
@@ -83,11 +82,6 @@ class BatteryMonitor:
                     bar = self.get_battery_bar(level)
                     print(f"📊 Nivel: {level}% {bar}")
                     
-                elif pattern_name == 'battery_voltage':
-                    mv = int(match.group(1))
-                    v = float(match.group(2))
-                    print(f"⚡ Voltaje: {mv} mV ({v:.2f} V)")
-                    
                 elif pattern_name == 'led_status':
                     color = match.group(1)
                     level_desc = match.group(2)
@@ -103,13 +97,12 @@ class BatteryMonitor:
                     bar = self.get_battery_bar(level)
                     print(f"📊 Nivel inicial: {level}% {bar}")
                     
-                elif pattern_name == 'initial_voltage':
-                    mv = int(match.group(1))
-                    v = mv / 1000.0
-                    print(f"⚡ Voltaje inicial: {mv} mV ({v:.2f} V)")
-                    
                 elif pattern_name == 'led_pins':
                     print(f"📌 {line}")
+                    
+                elif pattern_name == 'battery_interval':
+                    interval = int(match.group(1))
+                    print(f"⏱️  Intervalo de reporte: {interval} segundos")
                 
                 return True
         

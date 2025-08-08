@@ -28,12 +28,8 @@ static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(LED_BLUE_NODE, gpio
 
 // Función para actualizar los LEDs según el porcentaje de batería
 static void update_battery_leds(uint8_t battery_level) {
-    // Obtener el voltaje de la batería para más información
-    uint16_t battery_mv = zmk_battery_state_of_charge_mv();
-    
     LOG_INF("=== BATTERY STATUS ===");
     LOG_INF("Battery level: %d%%", battery_level);
-    LOG_INF("Battery voltage: %d mV (%.2f V)", battery_mv, (float)battery_mv / 1000.0f);
     
     // Apagar todos los LEDs primero
     gpio_pin_set_dt(&led_green, 0);
@@ -124,12 +120,11 @@ static int battery_led_init(void) {
     
     // Obtener el nivel inicial de batería y mostrar información de inicio
     uint8_t initial_level = zmk_battery_state_of_charge();
-    uint16_t initial_mv = zmk_battery_state_of_charge_mv();
     
     LOG_INF("=== BATTERY LED MODULE STARTED ===");
     LOG_INF("Initial battery level: %d%%", initial_level);
-    LOG_INF("Initial battery voltage: %d mV", initial_mv);
     LOG_INF("LEDs configured on pins: G=10, R=16, Y=14, B=15");
+    LOG_INF("Battery reporting interval: %d seconds", CONFIG_ZMK_BATTERY_REPORT_INTERVAL);
     LOG_INF("================================");
     
     update_battery_leds(initial_level);
