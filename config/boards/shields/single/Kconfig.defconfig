@@ -1,0 +1,6 @@
+if SHIELD_SINGLE
+
+config ZMK_KEYBOARD_NAME
+    default "Single 4x4"
+
+endif
