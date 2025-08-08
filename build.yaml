@@ -4,4 +4,5 @@ include:
     artifact-name: reset
   - board: nice_nano_v2  
     shield: single
+    snippet: zmk-usb-logging
     artifact-name: single
