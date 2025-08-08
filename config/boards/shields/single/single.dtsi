@@ -12,6 +12,33 @@
         zmk,matrix_transform = &default_transform;
     };
 
+    aliases {
+        led-green = &led_green;
+        led-red = &led_red;
+        led-yellow = &led_yellow;
+        led-blue = &led_blue;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        led_green: led_0 {
+            gpios = <&pro_micro 10 GPIO_ACTIVE_HIGH>;
+            label = "Green LED";
+        };
+        led_red: led_1 {
+            gpios = <&pro_micro 11 GPIO_ACTIVE_HIGH>;
+            label = "Red LED";
+        };
+        led_yellow: led_2 {
+            gpios = <&pro_micro 12 GPIO_ACTIVE_HIGH>;
+            label = "Yellow LED";
+        };
+        led_blue: led_3 {
+            gpios = <&pro_micro 13 GPIO_ACTIVE_HIGH>;
+            label = "Blue LED";
+        };
+    };
+
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <4>;

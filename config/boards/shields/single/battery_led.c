@@ -1,0 +1,123 @@
+/*
+ * Copyright (c) 2024 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <zephyr/device.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/kernel.h>
+#include <zephyr/logging/log.h>
+
+#include <zmk/battery.h>
+#include <zmk/events/battery_state_changed.h>
+#include <zmk/event_manager.h>
+
+LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+
+// Definir los pines de los LEDs según tu configuración
+#define LED_GREEN_NODE  DT_ALIAS(led_green)
+#define LED_RED_NODE    DT_ALIAS(led_red)
+#define LED_YELLOW_NODE DT_ALIAS(led_yellow)
+#define LED_BLUE_NODE   DT_ALIAS(led_blue)
+
+static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(LED_GREEN_NODE, gpios);
+static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(LED_RED_NODE, gpios);
+static const struct gpio_dt_spec led_yellow = GPIO_DT_SPEC_GET(LED_YELLOW_NODE, gpios);
+static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(LED_BLUE_NODE, gpios);
+
+// Función para actualizar los LEDs según el porcentaje de batería
+static void update_battery_leds(uint8_t battery_level) {
+    LOG_INF("Battery level: %d%%", battery_level);
+    
+    // Apagar todos los LEDs primero
+    gpio_pin_set_dt(&led_green, 0);
+    gpio_pin_set_dt(&led_red, 0);
+    gpio_pin_set_dt(&led_yellow, 0);
+    gpio_pin_set_dt(&led_blue, 0);
+    
+    if (battery_level > 80) {
+        // Verde: batería muy alta (>80%)
+        gpio_pin_set_dt(&led_green, 1);
+    } else if (battery_level > 60) {
+        // Azul: batería alta (60-80%)
+        gpio_pin_set_dt(&led_blue, 1);
+    } else if (battery_level > 30) {
+        // Amarillo: batería media (30-60%)
+        gpio_pin_set_dt(&led_yellow, 1);
+    } else {
+        // Rojo: batería baja (<30%)
+        gpio_pin_set_dt(&led_red, 1);
+    }
+}
+
+// Listener para eventos de cambio de batería
+static int battery_state_listener(const zmk_event_t *eh) {
+    const struct zmk_battery_state_changed *ev = as_zmk_battery_state_changed(eh);
+    if (ev == NULL) {
+        return ZMK_EV_EVENT_BUBBLE;
+    }
+    
+    update_battery_leds(ev->state_of_charge);
+    return ZMK_EV_EVENT_BUBBLE;
+}
+
+ZMK_LISTENER(battery_led_listener, battery_state_listener);
+ZMK_SUBSCRIPTION(battery_led_listener, zmk_battery_state_changed);
+
+// Inicialización del módulo
+static int battery_led_init(void) {
+    int ret;
+    
+    // Verificar y configurar LEDs
+    if (!gpio_is_ready_dt(&led_green)) {
+        LOG_ERR("Green LED device not ready");
+        return -ENODEV;
+    }
+    if (!gpio_is_ready_dt(&led_red)) {
+        LOG_ERR("Red LED device not ready");
+        return -ENODEV;
+    }
+    if (!gpio_is_ready_dt(&led_yellow)) {
+        LOG_ERR("Yellow LED device not ready");
+        return -ENODEV;
+    }
+    if (!gpio_is_ready_dt(&led_blue)) {
+        LOG_ERR("Blue LED device not ready");
+        return -ENODEV;
+    }
+    
+    // Configurar LEDs como outputs
+    ret = gpio_pin_configure_dt(&led_green, GPIO_OUTPUT_INACTIVE);
+    if (ret < 0) {
+        LOG_ERR("Cannot configure green LED");
+        return ret;
+    }
+    
+    ret = gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_INACTIVE);
+    if (ret < 0) {
+        LOG_ERR("Cannot configure red LED");
+        return ret;
+    }
+    
+    ret = gpio_pin_configure_dt(&led_yellow, GPIO_OUTPUT_INACTIVE);
+    if (ret < 0) {
+        LOG_ERR("Cannot configure yellow LED");
+        return ret;
+    }
+    
+    ret = gpio_pin_configure_dt(&led_blue, GPIO_OUTPUT_INACTIVE);
+    if (ret < 0) {
+        LOG_ERR("Cannot configure blue LED");
+        return ret;
+    }
+    
+    // Obtener el nivel inicial de batería
+    uint8_t initial_level = zmk_battery_state_of_charge();
+    update_battery_leds(initial_level);
+    
+    LOG_INF("Battery LED module initialized");
+    return 0;
+}
+
+SYS_INIT(battery_led_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
