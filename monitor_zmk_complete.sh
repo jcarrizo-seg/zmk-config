@@ -75,7 +75,7 @@ cat "$DEVICE" | tee "$LOG_FILE" | while read -r line; do
     local_time=$(date '+%H:%M:%S.%3N')
     
     # Mostrar TODAS las líneas con filtro visual
-    if echo "$line" | grep -qiE "(TEST_LOG)"; then
+    if [[ "$line" == *TEST_LOG* ]]; then
         
         # Extraer timestamp del log
         if [[ "$line" =~ \[([0-9:.,]+)\] ]]; then
