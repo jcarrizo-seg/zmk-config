@@ -13,10 +13,11 @@
 
         default_layer {
             bindings = <
-                &kp N1    &kp N2    &kp N3    &kp A
-                &kp N4    &kp N5    &kp N6    &kp B
-                &kp N7    &kp N8    &kp N9    &kp C
-                &kp ASTRK &kp N0    &kp HASH  &kp D
+                &kp ASTRK   &kp N1      &kp N2      &kp N3      &kp N4      &kp N5
+                &kp ASTRK   &kp Q       &kp W       &kp E       &kp R       &kp T
+                &kp ASTRK   &kp A       &kp S       &kp D       &kp F       &kp G
+                &kp ASTRK   &kp Z       &kp X       &kp C       &kp V       &kp B
+                &kp ASTRK   &kp ASTRK   &kp ASTRK   &kp ASTRK   &kp ASTRK   &kp ASTRK
             >;
         };
     };
