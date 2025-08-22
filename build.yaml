@@ -22,9 +22,11 @@ include:
   - board: nice_nano_v2  
     shield: settings_reset
     artifact-name: settings_reset
+
   - board: nice_nano_v2  
-    shield: matricialsplit_left
-    artifact-name: matricialsplit_left
-  # - board: nice_nano_v2  
-  #   shield: matricialsplit_right
-  #   artifact-name: matricialsplit_right
+    shield: sofle_left
+    artifact-name: sofle_left
+
+  - board: nice_nano_v2  
+    shield: sofle_right
+    artifact-name: sofle_right

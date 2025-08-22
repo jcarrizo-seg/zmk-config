@@ -1,0 +1,17 @@
+if SHIELD_MATRICIALSPLIT_LEFT
+
+# Name must be less than 16 characters long!
+config ZMK_KEYBOARD_NAME
+    default "Sofle 2.1"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_MATRICIALSPLIT_LEFT || SHIELD_MATRICIALSPLIT_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif
