@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "matricialsplit.dtsi"
+#include "sofle.dtsi"
 
 / {
-    model = "matricialsplit_left";
-    compatible = "matricialsplit_left";
+    model = "sofle_left";
+    compatible = "sofle_left";
 
     chosen {
         zmk,split = &split;
