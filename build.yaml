@@ -25,8 +25,8 @@ include:
 
   - board: nice_nano_v2  
     shield: sofle_left
-    artifact-name: sofle_left
+    artifact-name: sofle_left_2
 
   - board: nice_nano_v2  
     shield: sofle_right
-    artifact-name: sofle_right
+    artifact-name: sofle_right_2
